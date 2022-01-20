@@ -1,6 +1,6 @@
 ---
 title: "Assignment 1: Introduction"
-author: "Student Name"
+author: "Andrew Friedman-Herring"
 output: pdf_document
 geometry: margin=2.54cm
 ---
@@ -22,21 +22,22 @@ The completed exercise is due on <>.
 
 1. What are your previous experiences with data analytics, R, and Git? Include both formal and informal training.
 
-> Answer: 
+> Answer: I have done a few research projects involving data analysis in excel. Last semester in Hydrology, we were breifly introduced to R in a data analysis setting. Over the winter break I spent a few hours doing the first week of a Coursera course on R basics. This semester I am also enrolled in Water Data Analytics, which also uses R. I have never used Git before this semester
 
 2. Are there any components of the course about which you feel confident?
 
-> Answer: 
+> Answer: I am confident in my ability to problem solve
 
 3. Are there any components of the course about which you feel apprehensive?
 
-> Answer: 
+> Answer: I am a bit nervous about learning to code, as it is still very new to me. 
+
 
 
 ## 2) GitHub
 
 Provide a link below to your forked course repository in GitHub. Make sure you have pulled all recent changes from the course repository  and that you have updated your course README file. 
 
-> Answer: 
+> Answer: https://github.com/friedandrew/Environmental_Data_Analytics_2022
 
 

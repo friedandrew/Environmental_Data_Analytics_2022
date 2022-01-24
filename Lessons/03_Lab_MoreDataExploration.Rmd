@@ -43,10 +43,7 @@ vector1[3] #
 matrix1 <- matrix(1:20, nrow = 5,ncol = 4) # 
 matrix1
 matrix2 <- matrix(1:20, nrow = 5, ncol = 4, byrow = TRUE) #
-matrix2
-matrix3 <- matrix(1:20, nrow = 5, ncol = 4, byrow = TRUE, # return after comma continues the line
-                  dimnames = list(c("uno", "dos", "tres", "cuatro", "cinco"), 
-                                  c("un", "deux", "trois", "cat"))) #
+matrix2 #
 
 matrix1[4, ] #
 matrix1[ , 3] #
@@ -79,11 +76,11 @@ dataframe1$ID
 ```
 Question: How do the different types of data appear in the Environment tab?
 
-> Answer: 
+> Answer: Data frames and matricies are stored as "data", and vectors are stored as "values"
 
 Question: In the R chunk below, write "dataframe1$". Press `tab` after you type the dollar sign. What happens?
 
-> Answer: 
+> Answer: It autocompletes the columns
 
 
 
@@ -93,25 +90,37 @@ Question: In the R chunk below, write "dataframe1$". Press `tab` after you type 
 Find a ten-day forecast of temperatures (Fahrenheit) for Durham, North Carolina. Create two vectors, one representing the high temperature on each of the ten days and one representing the low.
 
 ```{r}
-
+highsF<- c(49,54, 39,40,45,38,44,51,52,52)
+lowsF<- c(30,28,16,27,26,19,22,26,26,28)
 ```
 
 Now, create two additional vectors that include the ten-day forecast for the high and low temperatures in Celsius. Use a function to create the two new vectors from your existing ones in Fahrenheit.
 
 ```{r}
-
+tempconvertFtC<- function(x){
+  y<- (x-32)*5/9
+  return(y)
+}
+highsC<-tempconvertFtC(highsF)
+lowsC<-tempconvertFtC(lowsF)
+highsC
+lowsC
 ```
 
 Combine your four vectors into a data frame and add informative column names.
 
 ```{r}
-
+temperature.data.frame<- data.frame(highsF,highsC,lowsF,lowsC)
+names(temperature.data.frame)<- c("High in F", "Low in F", "High in C", "Low in C")
 ```
 
 Use the common functions `summary` and `sd` to obtain basic data summaries of the ten-day forecast. How would you call these functions differently for the entire data frame vs. a single column? Attempt to demonstrate both options below.
 
 ```{r}
-
+summary(temperature.data.frame)
+summary(temperature.data.frame$`High in F`)
+sd(temperature.data.frame)
+sd(temperature.data.frame$`High in F`)
 ```
 
 ### Date objects
@@ -134,8 +143,8 @@ Remember formatting of dates in R:
 # (code must be uncommented)
 today <- Sys.Date()
 format(today, format = "%B")
-#format(today, format = "")
-#format(today, format = "")
+format(today, format = "%B-%Y")
+format(today, format = "%A %B %d %Y")
 #format(today, format = "")
 
 ```

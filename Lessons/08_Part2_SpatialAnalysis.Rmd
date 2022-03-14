@@ -139,11 +139,15 @@ mapview(huc8_sf, zcol = "ACRES")
 
 ```{r Select the Upper Neuse HUC 8}
 #Read the shapefile into an sf dataframe
+huc8_sf_UN<- st_read("./Data/Spatial/NCHUC8.shp") %>% 
+  filter(SUBBASIN == "Upper Neuse")
 
 
 
 #Create a map
-
+ggplot(huc8_sf)+
+  geom_sf(fill = "Orange")+
+  geom_sf(data = huc8_sf_UN, fill = "Purple")
 
 ```
 

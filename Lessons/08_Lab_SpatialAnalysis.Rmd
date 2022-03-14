@@ -114,18 +114,24 @@ The URL '<https://raw.githubusercontent.com/ENV859/EnviroAtlasData/main/Wind_Ene
 
 ```{r}
 #Compute HUC8 wind energy
-
-
+WindEnergy <- read.csv("https://raw.githubusercontent.com/ENV859/EnviroAtlasData/main/Wind_Energy.csv", colClasses = c("HUC_12" = "factor"))
+WIndEnergy.Summary <- WindEnergy %>% 
+  mutate(HUC_8 = substr(HUC_12, 1,8)) %>% 
+  group_by(HUC_8) %>% 
+  summarize(Sum.AvgWindEnergy = sum(AvgWindEnergy),
+            Sum.kWhkm2day = sum(kWhkm2day))
 
 
 #Join to HUC_8 features
-
+huc8_sf_wind <- huc8_sf %>% 
+  left_join(WIndEnergy.Summary, by = c("HUC_8" = "HUC_8"))
 
 
 
 #View the outputs
-
-
+mapview(huc8_sf_wind, zcol = "Sum.AvgWindEnergy")
+ggplot(huc8_sf_wind)+
+  geom_sf(aes(fill = Sum.AvgWindEnergy))
 
 ```
 
@@ -155,10 +161,10 @@ On top of projecting any geographic data to adjust for the limitations of the so
 ```{r Transform the datasets to other coordinate reference systems}
 #Convert all to UTM Zone 17 (crs = 26917)
 epa_sf_utm <-      st_transform(epa_pm25_sites_sf, crs = 26917)
-counties_sf_utm <- 
-state_sf_utm <-    
-huc8_sf_utm <-     
-huc2_utm <-        
+counties_sf_utm <- st_transform(counties_sf_utm, crs = 26917)
+state_sf_utm <-    st_transform(state_sf_utm, crs = 26917)
+huc8_sf_utm <-     st_transform(huc8_sf, crs = 26917)
+huc2_utm <-        st_transform(huc2_utm, crs = 26917)
 ```
 
 ## 3.3 Clipping and intersecting data
@@ -168,16 +174,20 @@ Select the counties in the "Triangle" (Chatham, Durham, Orange, and Wake). Then 
 
 ```{r EXERCISE: Clipping}
 #Select the Triangle counties from the sf_counties dataframe
-
-
+triangle_sf <- counties_sf_utm %>% 
+  filter(NAME %in% c("Chatham", "Durham", "Orange", "Wake"))
+mapview(triangle_sf)
 
   
 #Grab the intersecting HUC_8s
-
-
+selected_HUCS <- huc8_sf_utm[triangle_sf,]
+mapview(selected_HUCS)
 
 #Intersect the HUC_8s
+clipped_HUCss <- selected_HUCS %>% 
+  st_intersection(triangle_sf)
 
+mapview(clipped_HUCss)
 
 
 

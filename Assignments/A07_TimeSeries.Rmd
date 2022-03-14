@@ -1,6 +1,6 @@
 ---
 title: "Assignment 7: Time Series Analysis"
-author: "Student Name"
+author: "Andrew Friedman-Herring"
 output: pdf_document
 geometry: margin=2.54cm
 editor_options: 
@@ -29,7 +29,13 @@ The completed exercise is due on Monday, March 14 at 7:00 pm.
 
 ```{r}
 #1
+getwd()
+library(tidyverse)
+library(lubridate)
+library(zoo)
+library(trend)
 
+theme_set(theme_classic())
 ```
 
 
@@ -37,7 +43,19 @@ The completed exercise is due on Monday, March 14 at 7:00 pm.
 
 ```{r, message = FALSE}
 #2
+Garinger.10 <- read.csv("./Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2010_raw.csv")
+Garinger.11 <- read.csv("./Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2011_raw.csv")
+Garinger.12 <- read.csv("./Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2012_raw.csv")
+Garinger.13 <- read.csv("./Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2013_raw.csv")
+Garinger.14 <- read.csv("./Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2014_raw.csv")
+Garinger.15 <- read.csv("./Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2015_raw.csv")
+Garinger.16 <- read.csv("./Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2016_raw.csv")
+Garinger.17 <- read.csv("./Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2017_raw.csv")
+Garinger.18 <- read.csv("./Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2018_raw.csv")
+Garinger.19 <- read.csv("./Data/Raw/Ozone_TimeSeries/EPAair_O3_GaringerNC2019_raw.csv")
 
+GaringerOzone <- rbind.data.frame(Garinger.10,Garinger.11,Garinger.12,Garinger.13,Garinger.14,Garinger.15,
+                                      Garinger.16,Garinger.17,Garinger.18,Garinger.19)
 
 ```
 
@@ -53,13 +71,16 @@ The completed exercise is due on Monday, March 14 at 7:00 pm.
 
 ```{r}
 # 3
-
+GaringerOzone$Date <- as.Date(GaringerOzone$Date, format = "%m/%d/%Y")
 # 4
-
+GaringerOzone <- GaringerOzone %>% 
+  select(Date, Daily.Max.8.hour.Ozone.Concentration, DAILY_AQI_VALUE)
 # 5
-
+Days <- as.data.frame(seq(as.Date("2010-01-01"), as.Date("2019-12-31"), by = "days"))
+names(Days)[1]<- "Date"
 # 6
-
+GaringerOzone <- Days %>% 
+  left_join(GaringerOzone)
 ```
 
 ## Visualize
@@ -68,10 +89,13 @@ The completed exercise is due on Monday, March 14 at 7:00 pm.
 
 ```{r}
 #7
-
+ggplot(GaringerOzone, aes(x = Date, y = Daily.Max.8.hour.Ozone.Concentration))+
+  geom_line()+
+  labs(x = "Year", y = "Ozone Concentration (ppm)")+
+  geom_smooth(method = "lm")
 ```
 
->Answer: 
+>Answer: Yes, the plot suggests a slight downward trend in Ozone concetration over time. 
 
 ## Time Series Analysis
 

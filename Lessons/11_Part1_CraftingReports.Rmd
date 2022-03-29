@@ -64,7 +64,9 @@ See: <https://rmarkdown.rstudio.com> and class recording.
 ## WHY R MARKDOWN?
 
 <Fill in our discussion below with bullet points. Use italics and bold for emphasis (hint: use the cheat sheets or `Help` →`Markdown Quick Reference` to figure out how to make bold and italic text).> 
-
+-Powerful teaching technique
+-Reproducability
+-
 
 ## TEXT EDITING CHALLENGE
 
@@ -77,11 +79,24 @@ Create a table below that details the example datasets we have been using in cla
 
 Create an R chunk below that installs the package `knitr`. Instead of commenting out the code, customize the chunk options such that the code is not evaluated (i.e., not run).
 
+```{r eval=FALSE, include=FALSE}
+install.packages(knitr)
+
+```
 
 ### Setup
 
 Create an R chunk below called "setup" that checks your working directory, loads the packages `tidyverse`, `lubridate`, and `knitr`, and sets a ggplot theme. Remember that you need to disable R throwing a message, which contains a check mark that cannot be knitted.
+```{r setup, message=FALSE, include=FALSE}
+getwd()
+library(tidyverse)
+library(lubridate)
+library(knitr)
+NTL<- read.csv("../Data/Raw/NTL-LTER_Lake_Nutrients_Raw.csv")
+head(NTL)
+NTL$sampledate <- as.Date(NTL$sampledate, format = "%m/%d/%y")
 
+```
 Load the NTL-LTER_Lake_Nutrients_Raw dataset, display the head of the dataset, and set the date column to a date format.
 
 Customize the chunk options such that the code is run but is not displayed in the final document.
